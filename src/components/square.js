@@ -5,14 +5,20 @@ export default class Square extends Component{
     super(props);
     this.state = {
       hover: false,
+      isAlive: false
     }
     this.toggleHover = this.toggleHover.bind(this);
   }
   toggleHover(isHover){
     this.setState({hover: isHover});
   }
+  
+  setConfiguration=()=>{
+    this.setState({isAlive:true});
+  };
+  
   render(){
-    let color = this.props.isAlive ? 'green' : 'salmon';
+    let color = this.state.isAlive ? 'green' : 'salmon';
     const style = {
       backgroundColor: this.state.hover ? 'black' : color,
       width: this.props.width + '%',
@@ -22,7 +28,8 @@ export default class Square extends Component{
       <div
         style={style}
         onMouseEnter={() => this.toggleHover(true)}
-        onMouseLeave={() => this.toggleHover(false)}>
+        onMouseLeave={() => this.toggleHover(false)}
+        onClick={()=>this.setConfiguration() }>
       </div>
     )
   }

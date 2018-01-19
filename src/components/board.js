@@ -10,7 +10,6 @@ export default class Board extends Component{
     for(let i = 0; i < totalSquare; i++){
       outSquare.push(
         <Square
-          isAlive={false}
           width={width}
           height={height}
           key={i+ 'square'}/>
