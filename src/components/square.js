@@ -5,19 +5,19 @@ export default class Square extends Component{
     super(props);
     this.state = {
       hover: false,
-      isAlive: false
+      isAlive: this.props.isAlive
     }
     this.toggleHover = this.toggleHover.bind(this);
   }
   toggleHover(isHover){
     this.setState({hover: isHover});
   }
-  
+
   setConfiguration=()=>{
     /*draw custom config-pattern*/
     this.setState({isAlive:!this.state.isAlive});
   };
-  
+
   render(){
     let color = this.state.isAlive ? 'green' : 'salmon';
     const style = {
