@@ -14,7 +14,8 @@ export default class Square extends Component{
   }
   
   setConfiguration=()=>{
-    this.setState({isAlive:true});
+    /*draw custom config-pattern*/
+    this.setState({isAlive:!this.state.isAlive});
   };
   
   render(){
