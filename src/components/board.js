@@ -24,7 +24,6 @@ export default class Board extends Component{
       flexWrap: 'wrap',
       width: '500px',
       height: '500px',
-      alignItems: 'no-space',
     };
     const squares = this.createBoard(50,50);
     return(
