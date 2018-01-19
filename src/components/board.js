@@ -19,12 +19,14 @@ export default class Board extends Component{
   }
   render(){
     const style = {
+      float: 'none',
+      margin: '0 auto',
       display: 'flex',
       flexWrap: 'wrap',
       width: '500px',
       height: '500px',
     };
-    const squares = this.createBoard(50,50);
+    const squares = this.createBoard(10,10);
     return(
       <div style={style}>
       {squares}
