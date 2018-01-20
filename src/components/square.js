@@ -23,6 +23,7 @@ export default class Square extends Component{
       backgroundColor: this.state.hover ? 'black' : color,
       width: this.props.width + '%',
       height: this.props.height + '%',
+      cursor: 'pointer'
     }
     return(
       <div

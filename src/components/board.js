@@ -75,18 +75,27 @@ export default class Board extends Component{
       width: '500px',
       height: '500px',
     };
+    const buttonBar = {
+      display: 'flex',
+      justifyContent: 'center',
+      width: '100%'
+    }
     const squares = this.createBoard(this.state.width,this.state.height, this.state.board);
     return(
       <div style={style}>
-      {squares}
-      <StateButton
-        onClick={this.clearBoard}
-        name='Clear'
-      />
-      <StateButton
-        onClick={this.resetBoard}
-        name='reset'
-      />
+        {squares}
+        <div style={buttonBar}>
+          <StateButton
+            onClick={this.clearBoard}
+            name='Clear'
+            main_color='rgb(255, 62, 42)'
+            hover_color='rgb(194, 47, 32)'/>
+          <StateButton
+            onClick={this.resetBoard}
+            name='reset'
+            main_color='rgb(22, 143, 255)'
+            hover_color='rgb(19, 126, 224)'/>
+        </div>
       </div>
     )
   }
