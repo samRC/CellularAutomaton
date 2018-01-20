@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Board from './components/board';
-import Options from './components/Options';
 
 class App extends Component {
   render() {
@@ -11,7 +10,7 @@ class App extends Component {
           <h1 className="App-title">CellularAutomaton</h1>
         </header>
         <Board />
-        <Options />
+        
       </div>
     );
   }
