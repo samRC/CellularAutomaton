@@ -13,13 +13,14 @@ export default class StateButton extends Component{
   render(){
     const style = {
       backgroundColor: this.state.hover ? this.props.hover_color : this.props.main_color,
-      width: '90px',
+      width: '150px',
       textAlign: 'center',
       padding: '7px 5px',
       border: '0',
       boxShadow: 'none',
       borderRadius: 'none',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      fontSize: '1.25rem'
     }
     return(
       <button

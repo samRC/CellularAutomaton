@@ -38,7 +38,7 @@ export default class Board extends Component{
       board: board
     })
   }
-  
+
   genRandC=()=>{
         let size=this.state.width*this.state.height;
         let original_board=this.state.board.slice();
@@ -56,7 +56,7 @@ export default class Board extends Component{
       });
       this.setState({board:original_board});
   };
-  
+
   changeSquare(i){
     const board = this.state.board.slice();
     board[i] = !board[i];
@@ -96,13 +96,13 @@ export default class Board extends Component{
     };
     const buttonBar = {
       display: 'flex',
-      justifyContent: 'center',
-      width: '100%'
+      justifyContent: 'space-evenly',
+      width: '100%',
+      marginTop: '7px',
     }
     const squares = this.createBoard(this.state.width,this.state.height, this.state.board);
     return(
       <div style={style}>
-<<<<<<< HEAD
         {squares}
         <div style={buttonBar}>
           <StateButton
@@ -112,27 +112,15 @@ export default class Board extends Component{
             hover_color='rgb(194, 47, 32)'/>
           <StateButton
             onClick={this.resetBoard}
-            name='reset'
+            name='Random spaced'
+            main_color='rgb(22, 143, 255)'
+            hover_color='rgb(19, 126, 224)'/>
+          <StateButton
+            onClick={this.genRandC}
+            name='Random centered'
             main_color='rgb(22, 143, 255)'
             hover_color='rgb(19, 126, 224)'/>
         </div>
-=======
-      {squares}
-      <StateButton
-        onClick={this.clearBoard}
-        name='Clear'
-      />
-      <StateButton
-        onClick={this.resetBoard}
-        name='random-spaced'
-      />
-      
-      <StateButton
-        onClick={this.genRandC}
-        name='random-centered'
-        />
-      
->>>>>>> master
       </div>
     )
   }
