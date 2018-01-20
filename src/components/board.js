@@ -38,6 +38,25 @@ export default class Board extends Component{
       board: board
     })
   }
+  
+  genRandC=()=>{
+        let size=this.state.width*this.state.height;
+        let original_board=this.state.board.slice();
+     let arr=[];
+     let delta=Math.ceil(0.07*size);
+      let center=size/2;
+      let min=center-delta;
+      let max=center+delta;
+      for(let i=0; i<(0.1*size); i++){
+        arr.push(min+Math.floor(Math.random()*(max-min)));
+      }
+      original_board=original_board.map((e, i)=>{
+        if(arr.indexOf(i)>0) return true;
+        else return false;
+      });
+      this.setState({board:original_board});
+  };
+  
   changeSquare(i){
     const board = this.state.board.slice();
     board[i] = !board[i];
@@ -85,8 +104,14 @@ export default class Board extends Component{
       />
       <StateButton
         onClick={this.resetBoard}
-        name='reset'
+        name='random-spaced'
       />
+      
+      <StateButton
+        onClick={this.genRandC}
+        name='random-centered'
+        />
+      
       </div>
     )
   }
