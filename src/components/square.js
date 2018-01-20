@@ -19,7 +19,7 @@ export default class Square extends Component{
 
   render(){
     const style = {
-      backgroundColor: this.props.isAlive ? 'green' : 'salmon',
+      backgroundColor: this.props.isAlive ? '#90a955' : '#ecf39e',
       width: this.props.width + '%',
       height: this.props.height + '%',
       cursor: 'pointer'

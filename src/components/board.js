@@ -6,8 +6,8 @@ export default class Board extends Component{
   constructor(props){
     super(props);
 
-    const w = 10;
-    const h = 10;
+    const w = 17;
+    const h = 17;
     const probAlive = .1;
     let board = [];
     for(let i = 0; i < w*h; i++){
@@ -105,7 +105,7 @@ export default class Board extends Component{
         let original_board=this.state.board.slice();
      let arr=[];
      let delta=Math.ceil(0.07*size);
-      let center=size/2;
+      let center=Math.ceil(size/2);
       let min=center-delta;
       let max=center+delta;
       for(let i=0; i<(0.1*size); i++){
@@ -150,7 +150,7 @@ export default class Board extends Component{
   render(){
     const style = {
       float: 'none',
-      margin: '0 auto',
+      margin: '10px auto',
       display: 'flex',
       flexWrap: 'wrap',
       width: '500px',
