@@ -16,17 +16,25 @@ export default class Options extends Component{
         this.setState({started:!this.state.started});
     };
     
+    genRand=()=>{
+        this.props.handleOptions({rand:true});
+    }
+    
     render(){
         
         return (
             <div style={style}>
                 <button
-                onClick={()=>this.toggleStart()}
-                style={style}>
-                {this.state.started?"Stop":'Start'}
+                    onClick={()=>this.toggleStart()}
+                    style={style}>
+                    {this.state.started?"Stop":'Start'}
                 </button>
                 <button style={style}>Clear</button>
-                <button style={style}>Random</button>
+                <button
+                    onClick={()=>this.genRand()}
+                    style={style}>
+                    Random
+                </button>
             </div>
             );
     }

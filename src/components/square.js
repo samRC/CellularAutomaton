@@ -16,10 +16,16 @@ export default class Square extends Component{
   setConfiguration=()=>{
     /*draw custom config-pattern*/
     this.setState({isAlive:!this.state.isAlive});
+    console.log(this.props.id);
   };
   
   render(){
-    let color = this.state.isAlive ? 'green' : 'salmon';
+    let color="salmon";
+    if(this.props.isAlive){
+        color = this.props.isAlive ? 'green' : 'salmon';
+    }else if(this.state.isAlive){
+        color = this.state.isAlive ? 'green' : 'salmon';
+    }
     const style = {
       backgroundColor: this.state.hover ? 'black' : color,
       width: this.props.width + '%',
