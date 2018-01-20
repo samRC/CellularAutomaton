@@ -23,9 +23,8 @@ export default class Board extends Component{
       genInterval:500,
       genCount:0
     };
-    this.createBoard = this.createBoard.bind(this);
-    this.clearBoard = this.clearBoard.bind(this);
-    this.resetBoard = this.resetBoard.bind(this);
+   
+   
 
   }
 
@@ -84,21 +83,22 @@ export default class Board extends Component{
     return ne_count;
   };
 
-  clearBoard(){
+  clearBoard=()=>{
     const clear = Array(this.state.width*this.state.height).fill(false);
     this.setState({
       board: clear,
-    })
-  }
-  resetBoard(){
+    });
+  };
+  
+  resetBoard=()=>{
     let board = [];
     for(let i = 0; i < this.state.width*this.state.height; i++){
       board.push(Math.random() < this.state.prob);
     }
     this.setState({
       board: board
-    })
-  }
+    });
+  };
 
   genRandC=()=>{
         let size=this.state.width*this.state.height;
@@ -129,7 +129,8 @@ export default class Board extends Component{
   // width: num of columns
   // height: num in each rows
   // probAlive: probabilty if will be set alive or not
-  createBoard(width, height, stateBoard){
+  
+  createBoard=(width, height, stateBoard)=>{
     const totalSquare = width * height;
     width = 100/width;
     height = 100/ height;
@@ -142,10 +143,10 @@ export default class Board extends Component{
           height={height}
           onClick={() => this.changeSquare(i)}
           key={i+ 'square'}/>
-      )
+      );
     }
     return outSquare;
-  }
+  };
   render(){
     const style = {
       float: 'none',
