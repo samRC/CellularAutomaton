@@ -18,12 +18,18 @@ export default class Square extends Component{
   // };
 
   render(){
-    let color = this.props.isAlive ? 'green' : 'salmon';
     const style = {
-      backgroundColor: this.state.hover ? 'black' : color,
+      backgroundColor: this.props.isAlive ? 'green' : 'salmon',
       width: this.props.width + '%',
       height: this.props.height + '%',
       cursor: 'pointer'
+    }
+    const shadeStyle = {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      backgroundColor: this.state.hover ? 'rgba(0,0,0,.6)' : 'rgba(0,0,0,0)',
+      position: 'relative'
     }
     return(
       <div
@@ -31,6 +37,7 @@ export default class Square extends Component{
         onMouseEnter={() => this.toggleHover(true)}
         onMouseLeave={() => this.toggleHover(false)}
         onClick={() => this.props.onClick()}>
+        <div style={shadeStyle}></div>
       </div>
     )
   }
