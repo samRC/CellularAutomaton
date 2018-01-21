@@ -5,8 +5,8 @@ import StateButton from './button';
 export default class Board extends Component{
   constructor(props){
     super(props);
-    const w = 50;
-    const h = 50;
+    const w = 5;
+    const h = 5;
     const t = w*h;
     this.state = {
       width: w,
@@ -84,13 +84,13 @@ export default class Board extends Component{
     const w=this.state.width;
     const h=this.state.height;
     let countAlive = 0;
-    const ne_i=[indexState-1 > 0 ? board[arrayIndex][indexState-1] : false,
+    const ne_i=[indexState-1 > -1 ? board[arrayIndex][indexState-1] : false,
                 indexState+1 < w ? board[arrayIndex][indexState+1] : false,
-                arrayIndex-1 > 0 ? board[arrayIndex-1][indexState] : false,
+                arrayIndex-1 > -1 ? board[arrayIndex-1][indexState] : false,
                 arrayIndex+1 < h ? board[arrayIndex+1][indexState] : false,
-                (arrayIndex-1 > 0  && indexState-1 > 0) ? board[arrayIndex-1][indexState-1] : false,
-                (arrayIndex-1 > 0  && indexState+1 < w) ? board[arrayIndex-1][indexState+1] : false,
-                (arrayIndex+1 < h  && indexState-1 > 0) ? board[arrayIndex+1][indexState-1] : false,
+                (arrayIndex-1 > -1  && indexState-1 > -1) ? board[arrayIndex-1][indexState-1] : false,
+                (arrayIndex-1 > -1  && indexState+1 < w) ? board[arrayIndex-1][indexState+1] : false,
+                (arrayIndex+1 < h  && indexState-1 > -1) ? board[arrayIndex+1][indexState-1] : false,
                 (arrayIndex+1 < h  && indexState+1 < w) ? board[arrayIndex+1][indexState+1] : false]
     for(let k = 0; k < ne_i.length; k++){
       countAlive = ne_i[k] ? countAlive+1 : countAlive;
