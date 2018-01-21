@@ -69,18 +69,49 @@ export default class Board extends Component{
     this.setState({board:board_copy});
 
   };
+  
+  getPaddedBoard=()=>{
+    let ne=[];
+    const w=this.state.width;
+    const h=this.state.height;
+    const s=w*h;
+    let board_copy=this.state.board.slice();
+    for(let j=0; j<h; j++){
+      let t=board_copy.splice(0, w);
+      t.unshift(null, null, null);
+      t.push(null,null, null);
+      ne.push(t);
+    }
+    ne.unshift(Array(w+6).fill(null));
+    ne.push(Array(w+6).fill(null));
+    board_copy=[].concat.apply([], ne);
+    return board_copy;
+  };
 
   getNeighbours=(i)=>{
-    let ne=[]
-     const board_copy=this.state.board.slice();
-     const w=this.state.width;
-     const ne_i=[i-1, i+1, i-w, i+w, i-w-1, i-w+1, i+w-1, i+w+1];
-    ne=ne_i.map(e=>board_copy[e]);
-    const ne_count={};
-    ne.forEach((e)=>{
-      ne_count[e]=(ne_count[e] || 0)+1
-    });
-    return ne_count;
+    let ne=[];
+    let board_copy=this.getPaddedBoard();
+    const w=this.state.width+6;
+    let count=-1;
+    for(let j=0; j<board_copy.length; j++){
+      if(count===i){
+        i=j-1;break;
+      }
+      if(board_copy[j]!==null) count++;
+    }
+     //console.log(i)
+     const ne_ix=[i-1, i+1, i-w, i+w, i-w-1, i-w+1, i+w-1, i+w+1];
+     //const ne_i=ne_ix.filter((x)=>{return (x>-1 && x!==null);});
+      ne=ne_ix.map((e)=>{
+        if(board_copy[e]!==null) return board_copy[e];
+        else return false;
+      });
+      const ne_count={};
+      ne.forEach((e)=>{
+        ne_count[e]=(ne_count[e] || 0)+1;
+      });
+      //ne['index']=i;
+      return ne_count;
   };
 
   clearBoard=()=>{
@@ -123,7 +154,7 @@ export default class Board extends Component{
     board[i] = !board[i];
     this.setState({
       board: board
-    })
+    });
   }
   // args
   // width: num of columns
@@ -161,7 +192,8 @@ export default class Board extends Component{
       justifyContent: 'space-evenly',
       width: '100%',
       marginTop: '7px',
-    }
+    };
+    
     const squares = this.createBoard(this.state.width,this.state.height, this.state.board);
     return(
       <div style={style}>
@@ -188,6 +220,6 @@ export default class Board extends Component{
             main_color='rgb(22, 143, 255)'
             hover_color='rgb(19, 126, 224)'/>
         </div>      </div>
-    )
+    );
   }
 }
