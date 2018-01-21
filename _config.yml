@@ -1,0 +1,9 @@
+name: CelluarAutomaton
+markdown: kramdown
+exclude:
+  - public
+  - src
+  - package.json
+  - README.md
+  - node_modules
+  - npm-debug.log
