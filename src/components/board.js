@@ -5,8 +5,8 @@ import StateButton from './button';
 export default class Board extends Component{
   constructor(props){
     super(props);
-    const w = 5;
-    const h = 5;
+    const w = 50;
+    const h = 50;
     const t = w*h;
     this.state = {
       width: w,
