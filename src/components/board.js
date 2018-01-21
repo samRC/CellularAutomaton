@@ -5,27 +5,24 @@ import StateButton from './button';
 export default class Board extends Component{
   constructor(props){
     super(props);
-
-    const w = 17;
-    const h = 17;
-    const probAlive = .1;
-    let board = [];
-    for(let i = 0; i < w*h; i++){
-      board.push(Math.random() < probAlive);
-    }
+    const w = 50;
+    const h = 50;
+    const t = w*h;
     this.state = {
       width: w,
       height: h,
-      prob: probAlive,
-      board: board,
+      total: t,
+      prob: .2,
+      board: [],
       startGen:false,
       tpointer:null,
       genInterval:500,
       genCount:0
     };
-   
-   
-
+  }
+  componentWillMount(){
+    // init state
+    this.edgeBoard();
   }
 
   startGen=()=>{
@@ -36,7 +33,6 @@ export default class Board extends Component{
   };
 
   applyRules=()=>{
-
     if(!this.state.startGen){
       let t=setInterval(()=>{
         //console.log('genaration passed');
@@ -50,19 +46,31 @@ export default class Board extends Component{
     }
   };
 
+  copyBoard=()=>{
+    const copyBoard = [];
+    for(let j = 0; j < this.state.height; j++){
+      copyBoard.push(this.state.board[j].slice());
+    }
+    return copyBoard;
+  }
+
   cellRules=()=>{
     let neighbours={};
-    let board_copy=this.state.board.slice();
-    for(let i=0; i<(this.state.width*this.state.height); i++){
-      neighbours=this.getNeighbours(i);
-      //console.log(neighbours["true"]);
-      if(board_copy[i]){
-        if(neighbours["true"]<2 || neighbours["true"]>3 || neighbours["true"]===undefined)
-              board_copy[i]=false;
-        else if(neighbours["true"]===3 || neighbours["true"]===2)
-              board_copy[i]=true;
-      }else{
-        if(neighbours["true"]===3) board_copy[i]=true;
+    let board_copy=this.copyBoard()
+    const h=this.state.height;
+    for(let i=0; i< this.state.total; i++){
+      const arrayIndex = Math.floor(i / h);
+      const indexState = i % h;
+      neighbours=this.getNeighbours(i, arrayIndex, indexState);
+      if(board_copy[arrayIndex][indexState]){
+        if(neighbours < 2 || neighbours > 3){
+          board_copy[arrayIndex][indexState] = false;
+        }
+      }
+      else{
+        if(neighbours === 3){
+          board_copy[arrayIndex][indexState] = true;
+        }
       }
 
     }
@@ -70,30 +78,76 @@ export default class Board extends Component{
 
   };
 
-  getNeighbours=(i)=>{
+  getNeighbours=(i, arrayIndex, indexState)=>{
     let ne=[]
-     const board_copy=this.state.board.slice();
-     const w=this.state.width;
-     const ne_i=[i-1, i+1, i-w, i+w, i-w-1, i-w+1, i+w-1, i+w+1];
-    ne=ne_i.map(e=>board_copy[e]);
-    const ne_count={};
-    ne.forEach((e)=>{
-      ne_count[e]=(ne_count[e] || 0)+1
-    });
-    return ne_count;
-  };
+    const board=this.state.board
+    const w=this.state.width;
+    const h=this.state.height;
+    let countAlive = 0;
+    const ne_i=[indexState-1 > -1 ? board[arrayIndex][indexState-1] : false,
+                indexState+1 < w ? board[arrayIndex][indexState+1] : false,
+                arrayIndex-1 > -1 ? board[arrayIndex-1][indexState] : false,
+                arrayIndex+1 < h ? board[arrayIndex+1][indexState] : false,
+                (arrayIndex-1 > -1  && indexState-1 > -1) ? board[arrayIndex-1][indexState-1] : false,
+                (arrayIndex-1 > -1  && indexState+1 < w) ? board[arrayIndex-1][indexState+1] : false,
+                (arrayIndex+1 < h  && indexState-1 > -1) ? board[arrayIndex+1][indexState-1] : false,
+                (arrayIndex+1 < h  && indexState+1 < w) ? board[arrayIndex+1][indexState+1] : false]
+    for(let k = 0; k < ne_i.length; k++){
+      countAlive = ne_i[k] ? countAlive+1 : countAlive;
+    }
+    return countAlive;
+  }
 
   clearBoard=()=>{
-    const clear = Array(this.state.width*this.state.height).fill(false);
+    const w = this.state.width;
+    const t = this.state.total;
+    let clear = [];
+    for(let j = 0; j < this.state.height; j++){
+      clear.push(Array(this.state.width).fill(false));
+    }
     this.setState({
       board: clear,
     });
   };
-  
-  resetBoard=()=>{
+
+  randomBoard=()=>{
+    const w = this.state.width
     let board = [];
-    for(let i = 0; i < this.state.width*this.state.height; i++){
-      board.push(Math.random() < this.state.prob);
+    let currArray = 0;
+    for(let i = 0; i < this.state.total; i++){
+      // mods will always be the same so is it better to just store everyone in an array?
+      const mod = i % w;
+      currArray =  mod === 0 && i != 0 ? currArray+1 : currArray;
+      if(mod === 0){
+        board.push([Math.random() < this.state.prob]);
+      }
+      else{
+        board[currArray].push(Math.random() < this.state.prob);
+      }
+    }
+    this.setState({
+      board: board
+    });
+  };
+
+  // edges only on live
+  edgeBoard=()=>{
+    const w = this.state.width;
+    const t = this.state.total;
+    let board = [];
+    let currArray = 0;
+    for(let i = 0; i < this.state.total; i++){
+      const mod = i % w;
+      currArray =  mod === 0 && i != 0 ? currArray+1 : currArray;
+      if(mod === 0){
+        board.push([false]);
+      }
+      else{
+        board[currArray].push(false);
+      }
+      if(i < w || mod === 0 || mod === w-1 || i > (t-w) ){
+        board[currArray][mod] = true;
+      }
     }
     this.setState({
       board: board
@@ -101,7 +155,7 @@ export default class Board extends Component{
   };
 
   genRandC=()=>{
-        let size=this.state.width*this.state.height;
+        let size=this.state.total;
         let original_board=this.state.board.slice();
      let arr=[];
      let delta=Math.ceil(0.07*size);
@@ -118,29 +172,30 @@ export default class Board extends Component{
       this.setState({board:original_board});
   };
 
-  changeSquare(i){
-    const board = this.state.board.slice();
-    board[i] = !board[i];
+  changeSquare=(i)=>{
+    const board = this.copyBoard();
+    const arrayIndex = Math.floor(i / this.state.width);
+    const indexState = i % this.state.width;
+    board[arrayIndex][indexState] = !board[arrayIndex][indexState];
     this.setState({
       board: board
     })
   }
-  // args
-  // width: num of columns
-  // height: num in each rows
-  // probAlive: probabilty if will be set alive or not
-  
+
   createBoard=(width, height, stateBoard)=>{
     const totalSquare = width * height;
-    width = 100/width;
-    height = 100/ height;
+    const sWidth = 100/width;
+    const sHeight = 100/ height;
     let outSquare = [];
+    let currArray = 0;
     for(let i = 0; i < totalSquare; i++){
+      const mod = i % width;
+      currArray =  mod === 0 && i != 0 ? currArray+1 : currArray;
       outSquare.push(
         <Square
-          isAlive={stateBoard[i]}
-          width={width}
-          height={height}
+          isAlive={stateBoard[currArray][mod]}
+          width={sWidth}
+          height={sHeight}
           onClick={() => this.changeSquare(i)}
           key={i+ 'square'}/>
       );
@@ -178,7 +233,7 @@ export default class Board extends Component{
             main_color='rgb(255, 62, 42)'
             hover_color='rgb(194, 47, 32)'/>
           <StateButton
-            onClick={this.resetBoard}
+            onClick={this.randomBoard}
             name='Random spaced'
             main_color='rgb(22, 143, 255)'
             hover_color='rgb(19, 126, 224)'/>
