@@ -15,7 +15,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://samrc.github.io/CellularAutomatom",
+  "homepage": "https://samrc.github.io/CellularAutomaton",
   "devDependencies": {
     "gh-pages": "^1.1.0"
   }
